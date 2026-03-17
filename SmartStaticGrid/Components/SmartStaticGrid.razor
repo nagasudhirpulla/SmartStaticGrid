@@ -1,0 +1,157 @@
+﻿@typeparam TItem
+@using Microsoft.AspNetCore.Components.Forms
+@using SmartStaticGrid.Lib.Models
+
+<div class="ss-grid-container">
+    @if (hasError)
+    {
+        @if (ErrorTemplate is not null)
+        {
+            @ErrorTemplate(errorMessage)
+        }
+        else
+        {
+
+            <div class="ss-error">@errorMessage</div>
+        }
+    }
+    else
+    {
+        <form method="post" @formname="@Id" data-enhance>
+            <AntiforgeryToken />
+
+            @* State Persistence - The "Smart" part *@
+            <input type="hidden" name="State.TotalCount" value="@State.TotalCount" />
+            <input type="hidden" name="State.SortColumn" value="@State.SortColumn" />
+            <input type="hidden" name="State.SortDescending" value="@State.SortDescending.ToString().ToLower()" />
+
+            @* Toolbar: Page Size & Global Search *@
+            <div class="@ToolbarClass">
+                <select name="State.PageSize" onchange="this.form.submit()" class="ss-select">
+                    @foreach (var size in new[] { 5, 10, 25, 50 })
+                    {
+                        <option value="@size" selected="@(State.PageSize == size)">@size</option>
+                    }
+                </select>
+            </div>
+
+            <table class="@TableClass">
+                <thead>
+                    <tr>
+                        @foreach (var col in Columns)
+                        {
+                            <th class="@HeaderClass">
+                                <button type="submit" name="Action" value="sort:@col.Key" class="ss-sort-btn">
+                                    @col.Label
+                                    @(State.SortColumn == col.Key ? (State.SortDescending ? " ↓" : " ↑") : "")
+                                </button>
+                                @if (col.Searchable)
+                                {
+                                    <input type="text" name="State.Filters[@col.Key]"
+                                           value="@(State.Filters.GetValueOrDefault(col.Key))"
+                                           class="ss-filter-input" onchange="this.form.submit()" />
+                                }
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (items?.Any() == true)
+                    {
+                        @foreach (var item in items)
+                        {
+                            <tr class="@RowClass">@RowTemplate(item)</tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="@Columns.Count">
+                                @if (EmptyTemplate is not null)
+                                {
+                                    @EmptyTemplate
+                                }
+                                else
+                                {
+                                    <div class="ss-empty">No results found.</div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @* Pager *@
+            <div class="@PagerContainerClass">
+                <button type="submit" name="State.TargetPage" value="@(State.TargetPage - 1)"
+                        disabled="@(State.TargetPage <= 1)" class="ss-btn">
+                    Prev
+                </button>
+                @foreach (var p in GetVisiblePages())
+                {
+                    <button type="submit" name="State.TargetPage" value="@p"
+                            class="ss-btn @(p == State.TargetPage ? "active" : "")">
+                        @p
+                    </button>
+                }
+                <button type="submit" name="State.TargetPage" value="@(State.TargetPage + 1)"
+                        disabled="@(State.TargetPage >= TotalPages)" class="ss-btn">
+                    Next
+                </button>
+            </div>
+        </form>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public required string Id { get; set; }
+    [Parameter, EditorRequired] public List<ColumnDef> Columns { get; set; } = [];
+    [Parameter, EditorRequired] public RenderFragment<TItem> RowTemplate { get; set; } = default!;
+    [Parameter, EditorRequired] public Func<GridRequest, Task<GridResponse<TItem>>> DataProvider { get; set; } = default!;
+
+    [Parameter] public RenderFragment? EmptyTemplate { get; set; }
+    [Parameter] public RenderFragment<string>? ErrorTemplate { get; set; }
+
+    [SupplyParameterFromForm] public GridState State { get; set; } = new();
+    [SupplyParameterFromForm] public string? Action { get; set; }
+
+    // CSS Framework Adapters
+    [Parameter] public string TableClass { get; set; } = "ss-table";
+    [Parameter] public string RowClass { get; set; } = "";
+    [Parameter] public string HeaderClass { get; set; } = "";
+    [Parameter] public string ToolbarClass { get; set; } = "ss-toolbar";
+    [Parameter] public string PagerContainerClass { get; set; } = "ss-pager";
+
+    private IEnumerable<TItem>? items;
+    private bool hasError;
+    private string errorMessage = "";
+    private int TotalPages => (int)Math.Ceiling((double)State.TotalCount / State.PageSize);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (Action?.StartsWith("sort:") == true)
+            {
+                var col = Action.Split(':')[1];
+                if (State.SortColumn == col) State.SortDescending = !State.SortDescending;
+                else { State.SortColumn = col; State.SortDescending = false; }
+                State.TargetPage = 1;
+            }
+
+            var req = new GridRequest(State.TargetPage, State.PageSize, State.Filters,
+                                     State.SortColumn, State.SortDescending, State.TotalCount == 0);
+            var res = await DataProvider(req);
+            items = res.Items;
+            if (req.RequestNewCount) State.TotalCount = res.TotalCount;
+        }
+        catch { hasError = true; errorMessage = "Failed to load data."; }
+    }
+
+    private IEnumerable<int> GetVisiblePages()
+    {
+        int start = Math.Max(1, State.TargetPage - 2);
+        int end = Math.Min(TotalPages, start + 5);
+        return Enumerable.Range(start, Math.Max(0, end - start + 1));
+    }
+}

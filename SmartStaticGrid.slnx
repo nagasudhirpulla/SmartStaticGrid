@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="SmartStaticGrid/SmartStaticGrid.csproj" />
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="SmartStaticGrid/SmartStaticGrid.Lib.csproj" />
 </Solution>
