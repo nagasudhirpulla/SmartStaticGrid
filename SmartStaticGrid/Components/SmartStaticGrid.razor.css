@@ -1,6 +1,142 @@
-﻿.my-component {
-    border: 2px dashed red;
-    padding: 1em;
-    margin: 1em 0;
-    background-image: url('background.png');
+/* Container logic */
+.ss-grid-container {
+    position: relative;
+    width: 100%;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #333;
+}
+
+/* Toolbar & Page Size */
+.ss-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.ss-select {
+    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    background-color: #fff;
+}
+
+/* Table Core */
+.ss-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.ss-table th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    padding: 0.75rem;
+    text-align: left;
+    background-color: #f8f9fa;
+}
+
+.ss-table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Sorting & Filtering */
+.ss-sort-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-weight: 600;
+    color: #212529;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: color 0.2s;
+}
+
+.ss-sort-btn:hover {
+    color: #0056b3;
+}
+
+.ss-filter-input {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.2rem;
+}
+
+/* Pagination */
+.ss-pager {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 1rem;
+    justify-content: flex-end;
+}
+
+.ss-btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid #007bff;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    color: #007bff;
+    transition: all 0.2s ease-in-out;
+}
+
+.ss-btn:hover:not(:disabled) {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.ss-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+.ss-btn:disabled {
+    border-color: #dee2e6;
+    color: #6c757d;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+}
+
+/* Status States */
+.ss-empty {
+    text-align: center;
+    padding: 3rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.ss-error {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Enhanced Form Loading State */
+/* Blazor adds the 'blazor-enhanced-nav-loading' class to the body during data-enhance fetch */
+body.blazor-enhanced-nav-loading .ss-grid-container {
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.2s;
 }
