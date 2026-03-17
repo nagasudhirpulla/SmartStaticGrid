@@ -62,6 +62,36 @@ Want to use Tailwind? Just pass the classes:
                  PagerButtonClass="px-4 py-2 border rounded-md" />
 ```
 
+Another example with Radzen Blazor
+```razor
+<SmartStaticGrid Id="RadzenStyledUsers" 
+                 TItem="User" 
+                 Columns="userCols" 
+                 DataProvider="LoadUsers"
+                 @* Apply Radzen classes to the grid elements *@
+                 TableClass="rz-grid-table rz-datatable" 
+                 HeaderClass="rz-column-title"
+                 RowClass="rz-datatable-even"
+                 PagerContainerClass="rz-paginator"
+                 PagerButtonClass="rz-paginator-page rz-button rz-button-md rz-variant-flat rz-secondary"
+                 PagerActiveClass="rz-paginator-page rz-button rz-button-md rz-variant-flat rz-primary rz-state-active">
+
+    <RowTemplate Context="user">
+        <td class="rz-grid-col-text">@user.FullName</td>
+        <td class="rz-grid-col-text">@user.Email</td>
+        <td class="rz-grid-col-text">@user.Role</td>
+    </RowTemplate>
+
+    <EmptyTemplate>
+        <div class="rz-p-12 rz-text-align-center">
+            <RadzenIcon Icon="find_in_page" Style="font-size: 3rem;" />
+            <p>No records found in this view.</p>
+        </div>
+    </EmptyTemplate>
+
+</SmartStaticGrid>
+```
+
 # 🛡️ Security & Reliability
 * CSRF Protection: Automatically includes AntiforgeryToken.
 * Isolation: Unique Id parameter ensures multiple grids on the same page never clash.
