@@ -1,0 +1,47 @@
+﻿@page "/"
+@using SmartStaticGrid.Lib.Components
+@using SmartStaticGrid.Lib.Models
+@using SmartStaticGrid.Demos.Data
+
+<PageTitle>Home</PageTitle>
+
+<h1>Blazor Smart Static Grid Demo</h1>
+
+<SmartStaticGrid Id="RadzenStyledUsers"
+                 TItem="User"
+                 Columns="userCols"
+                 DataProvider="LoadUsers"
+                 TableClass="rz-grid-table rz-datatable"
+                 HeaderClass="rz-column-title"
+                 RowClass="rz-datatable-even"
+                 PagerContainerClass="rz-paginator"
+                 >
+
+    <RowTemplate Context="user">
+        <td class="rz-grid-col-text">@user.FullName</td>
+        <td class="rz-grid-col-text">@user.Email</td>
+        <td class="rz-grid-col-text">@user.Role</td>
+    </RowTemplate>
+
+    <EmptyTemplate>
+        <div class="rz-p-12 rz-text-align-center">
+            <RadzenIcon Icon="find_in_page" Style="font-size: 3rem;" />
+            <p>No records found in this view.</p>
+        </div>
+    </EmptyTemplate>
+
+</SmartStaticGrid>
+
+@code {
+    public static readonly List<ColumnDef> userCols = [
+        new(UserService.NameKey, "Full Name", Searchable: true),
+        new(UserService.EmailKey, "Email Address", Searchable: true),
+        new(UserService.RoleKey, "User Role", Searchable: false)
+    ];
+
+    private async Task<GridResponse<User>> LoadUsers(GridRequest req)
+    {
+        var (users, total) = UserService.GetUsers(req);
+        return new GridResponse<User>(users, total);
+    }
+}

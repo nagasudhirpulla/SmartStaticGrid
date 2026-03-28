@@ -1,7 +1,7 @@
 ﻿namespace SmartStaticGrid.Lib.Models;
 public class GridState
 {
-    public int TotalCount { get; set; }
+    public int TotalCount { get; set; } = 0;
     public int TargetPage { get; set; } = 1;
     public int PageSize { get; set; } = 10;
     public string? SortColumn { get; set; }
