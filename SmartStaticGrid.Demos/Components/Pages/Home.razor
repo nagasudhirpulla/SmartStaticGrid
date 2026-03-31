@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using SmartStaticGrid.Lib.Components
+@using SmartStaticGrid.Blazor.Components
 @using SmartStaticGrid.Lib.Models
 @using SmartStaticGrid.Demos.Data
 
@@ -14,8 +14,7 @@
                  TableClass="rz-grid-table rz-datatable"
                  HeaderClass="rz-column-title"
                  RowClass="rz-datatable-even"
-                 PagerContainerClass="rz-paginator"
-                 >
+                 PagerContainerClass="rz-paginator">
 
     <RowTemplate Context="user">
         <td class="rz-grid-col-text">@user.FullName</td>

@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartStaticGrid\SmartStaticGrid.Lib.csproj" />
+    <ProjectReference Include="..\SmartStaticGrid.Blazor\SmartStaticGrid.Blazor.csproj" />
   </ItemGroup>
 
 </Project>

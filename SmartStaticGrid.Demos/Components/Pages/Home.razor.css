@@ -1,0 +1,5 @@
+.ss-grid-container form table tbody tr:hover td {
+    background-color: var(--rz-info-lighter) !important;
+    color: var(--rz-info-darker) !important;
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}

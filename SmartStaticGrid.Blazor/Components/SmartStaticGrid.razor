@@ -60,7 +60,7 @@
                     {
                         @foreach (var item in items)
                         {
-                            <tr class="@RowClass">@RowTemplate(item)</tr>
+                            <tr class="@(($"{RowClass}").Trim())">@RowTemplate(item)</tr>
                         }
                     }
                     else
@@ -83,20 +83,28 @@
 
             @* Pager *@
             <div class="@PagerContainerClass">
+                <button type="submit" name="State.TargetPage" value="1"
+                        disabled="@(State.TargetPage <= 1)" class="@PagerButtonClass">
+                    @("<<")
+                </button>
                 <button type="submit" name="State.TargetPage" value="@(State.TargetPage - 1)"
-                        disabled="@(State.TargetPage <= 1)" class="ss-btn">
-                    Prev
+                        disabled="@(State.TargetPage <= 1)" class="@PagerButtonClass">
+                    @("<")
                 </button>
                 @foreach (var p in GetVisiblePages())
                 {
                     <button type="submit" name="State.TargetPage" value="@p"
-                            class="ss-btn @(p == State.TargetPage ? "active" : "")">
+                            class="@($"{PagerButtonClass} {(p == State.TargetPage ? "active" : "")}".Trim())">
                         @p
                     </button>
                 }
                 <button type="submit" name="State.TargetPage" value="@(State.TargetPage + 1)"
-                        disabled="@(State.TargetPage >= TotalPages)" class="ss-btn">
-                    Next
+                        disabled="@(State.TargetPage >= TotalPages)" class="@PagerButtonClass">
+                    @(">")
+                </button>
+                <button type="submit" name="State.TargetPage" value="@TotalPages"
+                        disabled="@(State.TargetPage >= TotalPages)" class="@PagerButtonClass">
+                    @($">> ({TotalPages})")
                 </button>
             </div>
         </form>
@@ -121,6 +129,8 @@
     [Parameter] public string HeaderClass { get; set; } = "";
     [Parameter] public string ToolbarClass { get; set; } = "ss-toolbar";
     [Parameter] public string PagerContainerClass { get; set; } = "ss-pager";
+    [Parameter] public string PagerButtonClass { get; set; } = "ss-btn";
+    [Parameter] public int MaxPageButtons { get; set; } = 5;
 
     private IEnumerable<TItem>? items;
     private bool hasError;

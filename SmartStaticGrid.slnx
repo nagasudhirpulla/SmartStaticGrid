@@ -3,5 +3,5 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="SmartStaticGrid.Demos/SmartStaticGrid.Demos.csproj" Id="59db6245-fcf7-452d-9d5f-7e6788316b5a" />
-  <Project Path="SmartStaticGrid/SmartStaticGrid.Lib.csproj" />
+  <Project Path="SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj" />
 </Solution>
