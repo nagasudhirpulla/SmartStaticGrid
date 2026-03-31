@@ -14,7 +14,8 @@
                  TableClass="rz-grid-table rz-datatable"
                  HeaderClass="rz-column-title"
                  RowClass="rz-datatable-even"
-                 PagerContainerClass="rz-paginator">
+                 PagerContainerClass="rz-paginator"
+                 PageSizeOptions=@(new int[] {10,20,50})>
 
     <RowTemplate Context="user">
         <td class="rz-grid-col-text">@user.FullName</td>

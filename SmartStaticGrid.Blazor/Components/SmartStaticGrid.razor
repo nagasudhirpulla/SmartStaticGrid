@@ -28,7 +28,7 @@
             @* Toolbar: Page Size & Global Search *@
             <div class="@ToolbarClass">
                 <select name="State.PageSize" onchange="this.form.submit()" class="ss-select">
-                    @foreach (var size in new[] { 5, 10, 25, 50 })
+                    @foreach (var size in PageSizeOptions ?? new[] { 5, 10, 25, 50, 100 })
                     {
                         <option value="@size" selected="@(State.PageSize == size)">@size</option>
                     }
@@ -130,6 +130,7 @@
     [Parameter] public string ToolbarClass { get; set; } = "ss-toolbar";
     [Parameter] public string PagerContainerClass { get; set; } = "ss-pager";
     [Parameter] public string PagerButtonClass { get; set; } = "ss-btn";
+    [Parameter] public int[]? PageSizeOptions { get; set; }
     [Parameter] public int MaxPageButtons { get; set; } = 5;
 
     private IEnumerable<TItem>? items;
