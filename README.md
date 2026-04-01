@@ -102,3 +102,54 @@ Since this grid relies on Enhanced Form Handling, ensure your App.razor includes
 ```html
 <script src="_framework/blazor.web.js"></script>
 ```
+
+# Notes
+## github workflow to publish to nuget
+This is in draft
+```yaml
+name: Publish NuGet Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj
+
+      - name: Extract version from tag
+        # Strip refs/tags/ and optional leading "v" from the tag to produce a valid semver like 1.0.0
+        shell: bash
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Build
+        run: dotnet build SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj -c Release
+
+      - name: Pack
+        run: dotnet pack SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj -c Release -o ./artifacts /p:PackageVersion=$VERSION --no-build
+
+      - name: Publish to nuget.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
+```
+
+# References
+* Create and publish nuget package from dotnet CLI - https://learn.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-visual-studio?tabs=netcore-cli
