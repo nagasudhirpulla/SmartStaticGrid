@@ -112,7 +112,7 @@ name: Publish NuGet Package
 on:
   push:
     tags:
-      - 'v*'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build-and-publish:
