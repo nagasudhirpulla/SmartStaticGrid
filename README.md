@@ -16,8 +16,18 @@ SmartStatic Grid changes the game by:
 dotnet add package SmartStaticGrid.Lib
 ```
 
-# 🛠️ Quick Start
-1. Define your Column Definitions
+## 🛠️ Quick Start (updated)
+
+This quickstart shows the current component parameters and a minimal working example. For fully working examples, see `SmartStaticGrid.Demos/Components/Pages/Home.razor` and `SmartStaticGrid.Demos/Data/UserService.cs` in this repository.
+
+1) Install the package
+
+```bash
+dotnet add package Nagasudhir.SmartStaticGrid
+```
+
+2) Define your column definitions
+
 ```razor
 @code {
     private List<ColumnDef> userCols = new() {
@@ -28,31 +38,69 @@ dotnet add package SmartStaticGrid.Lib
 }
 ```
 
-2. Implement the Data Provider
-The grid doesn't care where your data comes from. Just provide a delegate that follows the GridRequest contract.
-```razor
+3) Implement the data provider
+
+The `DataProvider` must match the signature `Func<GridRequest, Task<GridResponse<TItem>>>`. Return items for the requested page and the total count when appropriate.
+
+```csharp
 private async Task<GridResponse<User>> LoadUsers(GridRequest req)
 {
-    // Pass filters and sort directly to your EF Core / Dapper service
+    // Forward filters/sort/paging to your data access layer
     var (items, total) = await UserService.GetUsersAsync(req);
     return new GridResponse<User>(items, total);
 }
 ```
 
-3. Drop in the Grid
+4) Use the component in a Razor page
+
 ```razor
-<SmartStaticGrid Id="UserList" 
-                 TItem="User" 
-                 Columns="userCols" 
+<SmartStaticGrid Id="UserList"
+                 TItem="User"
+                 Columns="userCols"
                  DataProvider="LoadUsers"
-                 TableClass="table table-striped">
+                 TableClass="table table-striped"
+                 PagerButtonClass="btn btn-sm"
+                 PageSizeOptions="new[] {10,25,50}">
+
     <RowTemplate Context="user">
-        <td>@user.Name</td>
+        <td>@user.FullName</td>
         <td>@user.Email</td>
         <td>@user.Role</td>
     </RowTemplate>
+
+    <EmptyTemplate>
+        <div>No users found.</div>
+    </EmptyTemplate>
+
 </SmartStaticGrid>
 ```
+
+Notes
+- The component persists grid state in hidden form fields and uses Blazor's enhanced form behavior to submit sorting, filtering and paging back to the server.
+- `AntiforgeryToken` is included automatically by the component.
+- The `Action` parameter is used internally for actions like `sort:<columnKey>` when header buttons are clicked.
+
+Filtering
+- Filter inputs are generated when a column is marked `Searchable: true`. The input name maps to `State.Filters["<ColumnKey>"]` where `ColumnKey` is the `Key` you supplied in `ColumnDef`.
+
+Example: reading filters in your `DataProvider`
+
+```csharp
+private async Task<GridResponse<User>> LoadUsers(GridRequest req)
+{
+    // Filters are string values; keys match ColumnDef.Key
+    var nameFilter = req.Filters.GetValueOrDefault("Name");
+    var emailFilter = req.Filters.GetValueOrDefault("Email");
+
+    // Delegate actual filtering/paging/sorting to your data layer
+    // Demo project shows a simple implementation in SmartStaticGrid.Demos/Data/UserService.cs
+    var (items, total) = await UserService.GetUsersAsync(req, nameFilter, emailFilter);
+    return new GridResponse<User>(items, total);
+}
+```
+
+Notes
+- See the demo project for additional styling examples and advanced usage (`SmartStaticGrid.Demos/Components/Pages` and `SmartStaticGrid.Demos/Data`).
 
 # 🎨 Framework Integration
 Want to use Tailwind? Just pass the classes:

@@ -7,16 +7,16 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>SmartStaticGrid.Blazor</PackageId>
+    <PackageId>Nagasudhir.SmartStaticGrid</PackageId>
     <Version>1.0.0</Version>
-    <Authors>nagasudhirpulla</Authors>
-    <Company>nagasudhirpulla</Company>
-    <Description>Lightweight static data grid for Blazor with state persistence, paging and sorting.</Description>
-    <PackageTags>blazor grid components</PackageTags>
+    <Authors>Nagasudhirpulla</Authors>
+    <Company>Nagasudhirpulla</Company>
+    <Description>Lightweight static data grid for Blazor with state persistence, paging, sorting and filtering.</Description>
+    <PackageTags>blazor,blazor grid components</PackageTags>
     <RepositoryUrl>https://github.com/nagasudhirpulla/SmartStaticGrid</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>false</IncludeSymbols>
     <NoWarn>NU5100</NoWarn>
   </PropertyGroup>

@@ -1,4 +1,4 @@
-﻿using SmartStaticGrid.Lib.Models;
+﻿using Nagasudhir.SmartStaticGrid.Models;
 
 namespace SmartStaticGrid.Demos.Data;
 

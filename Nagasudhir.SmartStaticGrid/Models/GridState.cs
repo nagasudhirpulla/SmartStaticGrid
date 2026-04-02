@@ -1,4 +1,4 @@
-﻿namespace SmartStaticGrid.Lib.Models;
+﻿namespace Nagasudhir.SmartStaticGrid.Models;
 public class GridState
 {
     public int TotalCount { get; set; } = 0;

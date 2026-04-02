@@ -1,4 +1,4 @@
-﻿namespace SmartStaticGrid.Lib.Models;
+﻿namespace Nagasudhir.SmartStaticGrid.Models;
 
 /*
  * Page - Page number to fetch
