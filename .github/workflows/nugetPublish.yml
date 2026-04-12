@@ -35,13 +35,13 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Restore dependencies
-        run: dotnet restore SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj
+        run: dotnet restore Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj
 
       - name: Build
-        run: dotnet build SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj -c Release --no-restore
+        run: dotnet build Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj -c Release --no-restore
 
       - name: Pack
-        run: dotnet pack SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj -c Release -o ./artifacts /p:PackageVersion=$VERSION --no-build
+        run: dotnet pack Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj -c Release -o ./artifacts /p:PackageVersion=$VERSION --no-build
 
       - name: Publish to nuget.org
         env:
