@@ -24,7 +24,7 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Restore
-        run: dotnet restore SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj
+        run: dotnet restore Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj
 
       - name: Extract version from tag
         # Strip refs/tags/ and optional leading "v" from the tag to produce a valid semver like 1.0.0
