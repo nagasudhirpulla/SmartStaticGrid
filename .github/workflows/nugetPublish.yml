@@ -41,7 +41,7 @@ jobs:
         run: dotnet build Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj -c Release --no-restore
 
       - name: Pack
-        run: dotnet pack Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj -c Release -o ./artifacts /p:PackageVersion=$VERSION --no-build
+        run: dotnet pack Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj -c Release -o ./artifacts -p:PackageVersion=$VERSION --no-build
 
       - name: Publish to nuget.org
         env:
