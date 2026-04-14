@@ -1,33 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <PackageId>Nagasudhir.SmartStaticGrid</PackageId>
-    <!--<Version>1.0.0</Version>-->
-    <Authors>Nagasudhirpulla</Authors>
-    <Company>Nagasudhirpulla</Company>
-    <Description>Lightweight static data grid for Blazor with state persistence, paging, sorting and filtering.</Description>
-    <PackageTags>blazor,blazor grid components</PackageTags>
-    <RepositoryUrl>https://github.com/nagasudhirpulla/SmartStaticGrid</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <IncludeSymbols>false</IncludeSymbols>
-    <NoWarn>NU5100</NoWarn>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Nagasudhir.SmartStaticGrid</PackageId>
+		<!--<Version>1.0.0</Version>-->
+		<Authors>Nagasudhirpulla</Authors>
+		<Company>Nagasudhirpulla</Company>
+		<Description>Lightweight static data grid for Blazor with state persistence, paging, sorting and filtering.</Description>
+		<PackageTags>blazor,blazor grid components</PackageTags>
+		<RepositoryUrl>https://github.com/nagasudhirpulla/SmartStaticGrid</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<IncludeSymbols>false</IncludeSymbols>
+		<NoWarn>NU5100</NoWarn>
+	</PropertyGroup>
 
 
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+		<None Include=".\.\README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3" />
+	</ItemGroup>
 
 </Project>

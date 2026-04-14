@@ -1,7 +1,5 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path="README.md" />
-  </Folder>
+  <Folder Name="/Solution Items/" />
   <Project Path="Nagasudhir.SmartStaticGrid/Nagasudhir.SmartStaticGrid.csproj" />
   <Project Path="SmartStaticGrid.Demos/SmartStaticGrid.Demos.csproj" Id="59db6245-fcf7-452d-9d5f-7e6788316b5a" />
 </Solution>
