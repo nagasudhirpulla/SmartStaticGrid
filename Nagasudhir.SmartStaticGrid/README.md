@@ -11,14 +11,19 @@ SmartStatic Grid changes the game by:
 * Style Agnostic: No hardcoded CSS. Easily "skin" it with Tailwind, Bootstrap, or Radzen using simple class parameters.
 * Smart Data Fetching: Only requests the total item count when necessary (initial load or filter change), saving expensive database cycles.
 
+# 🤔 Where to use it?
+* When the page has no forms and has to display only one table (like a users list page). This is because the page reload after form submission will reset the state of other tables and forms on the page
+
 # 📦 Installation
 ```bash
-dotnet add package SmartStaticGrid.Lib
+dotnet add package Nagasudhir.SmartStaticGrid
 ```
 
-## 🛠️ Quick Start (updated)
+## Demo
+A demo project is included in the Github repository under `SmartStaticGrid.Demos`. It contains example pages showcasing various features of the grid, including styling with Radzen.
 
-This quickstart shows the current component parameters and a minimal working example. For fully working examples, see `SmartStaticGrid.Demos/Components/Pages/Home.razor` and `SmartStaticGrid.Demos/Data/UserService.cs` in this repository.
+## 🛠️ Quick Start
+This quickstart shows the current component parameters and a minimal working example. 
 
 1) Install the package
 
@@ -151,53 +156,5 @@ Since this grid relies on Enhanced Form Handling, ensure your App.razor includes
 <script src="_framework/blazor.web.js"></script>
 ```
 
-# Notes
-## github workflow to publish to nuget
-This is in draft
-```yaml
-name: Publish NuGet Package
-
-on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
-
-jobs:
-  build-and-publish:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Restore
-        run: dotnet restore SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj
-
-      - name: Extract version from tag
-        # Strip refs/tags/ and optional leading "v" from the tag to produce a valid semver like 1.0.0
-        shell: bash
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          VERSION=${VERSION#v}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: Build
-        run: dotnet build SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj -c Release
-
-      - name: Pack
-        run: dotnet pack SmartStaticGrid.Blazor/SmartStaticGrid.Blazor.csproj -c Release -o ./artifacts /p:PackageVersion=$VERSION --no-build
-
-      - name: Publish to nuget.org
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          dotnet nuget push ./artifacts/*.nupkg -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
-```
-
-# References
+# Developer References
 * Create and publish nuget package from dotnet CLI - https://learn.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-visual-studio?tabs=netcore-cli
