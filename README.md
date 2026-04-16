@@ -117,17 +117,15 @@ Want to use Tailwind? Just pass the classes:
 
 Another example with Radzen Blazor
 ```razor
-<SmartStaticGrid Id="RadzenStyledUsers" 
-                 TItem="User" 
-                 Columns="userCols" 
+<SmartStaticGrid Id="RadzenStyledUsers"
+                 TItem="User"
+                 Columns="userCols"
                  DataProvider="LoadUsers"
-                 @* Apply Radzen classes to the grid elements *@
-                 TableClass="rz-grid-table rz-datatable" 
+                 TableClass="rz-grid-table rz-datatable"
                  HeaderClass="rz-column-title"
                  RowClass="rz-datatable-even"
                  PagerContainerClass="rz-paginator"
-                 PagerButtonClass="rz-paginator-page rz-button rz-button-md rz-variant-flat rz-secondary"
-                 PagerActiveClass="rz-paginator-page rz-button rz-button-md rz-variant-flat rz-primary rz-state-active">
+                 PageSizeOptions=@(new int[] {10,20,50})>
 
     <RowTemplate Context="user">
         <td class="rz-grid-col-text">@user.FullName</td>
@@ -149,6 +147,7 @@ Another example with Radzen Blazor
 * CSRF Protection: Automatically includes AntiforgeryToken.
 * Isolation: Unique Id parameter ensures multiple grids on the same page never clash.
 * Error Handling: Built-in ErrorTemplate and EmptyTemplate for professional UX.
+* Note that filter input strings sanitization and validation are the responsibility of the developer in the DataProvider, as these values are directly passed from the form inputs.
 
 # Pro-Tip for Contributors
 Since this grid relies on Enhanced Form Handling, ensure your App.razor includes the standard Blazor script:
