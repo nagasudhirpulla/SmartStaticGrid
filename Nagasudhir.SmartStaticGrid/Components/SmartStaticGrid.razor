@@ -137,6 +137,8 @@
     private bool hasError;
     private string errorMessage = "";
     private int TotalPages => (int)Math.Ceiling((double)State.TotalCount / State.PageSize);
+    // ensure UI and request always use a positive page number
+    private int SanitizedTargetPage => Math.Max(1, State.TargetPage);
 
     protected override async Task OnInitializedAsync()
     {
@@ -150,7 +152,7 @@
                 State.TargetPage = 1;
             }
 
-            var req = new GridRequest(State.TargetPage, State.PageSize, State.Filters,
+            var req = new GridRequest(SanitizedTargetPage, State.PageSize, State.Filters,
                                      State.SortColumn, State.SortDescending, State.TotalCount == 0);
             var res = await DataProvider(req);
             items = res.Items;
